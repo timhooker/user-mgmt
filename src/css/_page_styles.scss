@@ -1,0 +1,62 @@
+
+input {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $steel;
+  color: #fff;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1180px;
+
+}
+
+.section {
+  padding: 2em;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  float: left;
+  box-shadow: 1px 1px 15px -5px #000000;
+}
+
+.create-user {
+  width: 48%;
+  margin: 1%;
+  background-color: $bluegray;
+}
+
+.page-header {
+  width: 100%;
+  padding: 4em;
+}
+.user-list {
+  background-color: $peach;
+  width: 48%;
+  margin: 1%;
+}
+
+.add-user {
+  border: 0;
+  padding: 1em;
+  margin-top: .5em;
+  font-weight: 800;
+  background-color: $orange;
+  color: #fff;
+  border-radius: 2px;
+}
+
+h2 {
+  text-transform: uppercase;
+}
+
+h2:before {
+  position: relative;
+  top: .1em;
+  padding-right: .75em;
+}

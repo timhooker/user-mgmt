@@ -105,9 +105,7 @@
       usersList = userTools.query();
       showUsers(usersList);
     });
-    userEdit.addEventListener('click', function(e){
-
-    });
+    userEdit.addEventListener('click', editUser());
 
     // add buttons to span containers
     userEditCont.appendChild(userEdit);
@@ -161,7 +159,11 @@
     set
   }
 
-  function editUser {
+  function editUser() {
+
+    var modal = document.querySelector('.modal-edit-user');
+
+    modal.style.display = 'block';
   // access user in array
 
   // display Modal

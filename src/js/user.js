@@ -4,12 +4,16 @@ function User(spec) {
   // TODO: implement the user class, and get user unit tests passing
   if (!spec.firstName || spec.firstName.trim() === '') {
     throw 'First name is required';
+  } else if (!spec.lastName || spec.lastName.trim() === '') {
+    throw 'Last name is required';
+  } else if (!spec.email || spec.email.trim() === '') {
+    throw 'Email is required';
   }
-
   var self = {
-    firstName: spec.firstName,
-    lastName: spec.lastName,
-    email: spec.email,
+    firstName: spec.firstName.trim(),
+    lastName: spec.lastName.trim(),
+    email: spec.email.trim(),
+    name: spec.firstName.trim() + ' ' + spec.lastName.trim(),
     equal: function (otherUser) {
       return self.email === otherUser.email;
     }

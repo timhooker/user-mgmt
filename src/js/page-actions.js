@@ -1,22 +1,30 @@
-  var newUserForm = document.querySelector('.add-user-form');
-  var userListElement = document.querySelector('.user-list');
-  var userListSort = document.querySelector('.user-list-sort');
-  var userListSearch = document.querySelector('.user-list-search');
-  var userError = document.querySelector('.user-error');
-  var user = {};
-  var userTools = ObjectStore();
+  var newUserForm = document.querySelector('.add-user-form'),
+      editUserForm = document.querySelector('.edit-user-form'),
+      modal = document.querySelector('.modal-edit-user'),
+      userListElement = document.querySelector('.user-list'),
+      userListSort = document.querySelector('.user-list-sort'),
+      userListSearch = document.querySelector('.user-list-search'),
+      userError = document.querySelector('.user-error'),
+      editFirstName = editUserForm.querySelector('input[name="firstName"]'),
+      editLastName = editUserForm.querySelector('input[name="lastName"]'),
+      editEmail = editUserForm.querySelector('input[name="email"]'),
+      user = {},
+      userTools = ObjectStore();
+
   // MVP
-  newUserForm.addEventListener('submit', addNewUser);
+  newUserForm.addEventListener('submit', addUser);
+  editUserForm.addEventListener('submit', editUser);
   userListSort.addEventListener('change', sortUserList);
   userListSearch.addEventListener('keyup', searchUserList);
-  console.log(userListSearch);
 
   // Stretch
     // modal popup
     // persist values
+  var usersList = userTools.query();
+  showUsers(usersList);
 
 
-  function addNewUser(e){
+  function addUser(e){
     e.stopPropagation();
     e.preventDefault();
     // capture input from the form and assign it to the object
@@ -105,7 +113,18 @@
       usersList = userTools.query();
       showUsers(usersList);
     });
-    userEdit.addEventListener('click', editUser());
+
+    userEdit.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      // set values
+      editFirstName.value = usersList[index].firstName;
+      editLastName.value = usersList[index].lastName;
+      editEmail.value = usersList[index].email;
+      modal.style.display = 'block';
+
+    });
 
     // add buttons to span containers
     userEditCont.appendChild(userEdit);
@@ -117,7 +136,7 @@
 
     // give it back
     return parentElement;
-  }
+  };
 
   function sortUserList(e) {
     var sort = e.target.value;
@@ -135,20 +154,19 @@
       usersList = usersList.reverse();
     }
     showUsers(usersList);
-  }
+  };
 
   function searchUserList(e){
-    var sort = e.target.value;
+    var sort = e.target.value.toLowerCase();
     var usersList = userTools.query();
     if (sort !== '') {
       usersList = usersList.filter(function(user) {
-        var username = user.name;
-        console.log()
+        var username = user.name.toLowerCase();
         return username.indexOf( sort ) >= 0;
       });
     }
     showUsers(usersList);
-  }
+  };
 
   function showUserError(msg) {
     userError.innerText = msg;
@@ -157,24 +175,41 @@
       userError.style.bottom = '1em';
     }, 3000);
     set
-  }
+  };
 
-  function editUser() {
+  function editUser(e) {
+    e.stopPropagation();
+    e.preventDefault();
 
-    var modal = document.querySelector('.modal-edit-user');
+    modal.style.display = 'none';
 
-    modal.style.display = 'block';
-  // access user in array
+    var editedUser = {
+      firstName: editFirstName.value,
+      lastName: editLastName.value,
+      email: editEmail.value
+    };
 
-  // display Modal
 
-    // user can edit name
+    try {
+      user = User(editedUser);
+    }
+    catch( e ) {
+      showUserError(e);
+      newFirstName.focus();
+      return;
+    }
+    userTools.remove(user);
+    userTools.add(user);
+    // add catch
 
-    // save changes
-  // remove user from array
-  // add edited(new) user to the array
+    var usersList = userTools.query();
+    showUsers(usersList);
 
-  // regenerate array
 
-  //  refresh page
+    // add edited(new) user to the array
+
+    // regenerate array
+
+    //  refresh page
+
   }

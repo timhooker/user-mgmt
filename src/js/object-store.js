@@ -7,6 +7,18 @@ function ObjectStore() {
   // TODO: implement the object store class
   var collection = [];
 
+  if (localStorage.collection) {
+    collection = GetStoredUsers();
+  }
+
+  function GetStoredUsers() {
+    var storedUsers = JSON.parse(localStorage.collection);
+    storedUsers.forEach(function(user){
+      collection.push(User(user));
+    });
+    return collection;
+  }
+
   var self = {
     exists: function(obj) {
       return collection.some(function(item){
@@ -16,6 +28,7 @@ function ObjectStore() {
     add: function(obj) {
       if(!self.exists(obj)) {
         collection.push(obj);
+        localStorage.collection = JSON.stringify(collection);
         return true;
       }
       return false;
@@ -27,6 +40,8 @@ function ObjectStore() {
       collection = collection.filter(function(item){
         return !obj.equal(item);
       });
+      localStorage.collection = JSON.stringify(collection);
+      return;
     }
   };
   return self;
